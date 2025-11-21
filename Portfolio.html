@@ -117,6 +117,106 @@
     .section-content.active{display:block;animation:sectionFadeIn 0.6s cubic-bezier(0.4,0,0.2,1);}
     @keyframes sectionFadeIn{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
     
+    /* Transición suave de tema con efecto ola */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--main-bg);
+      transform: translate(-50%, -50%);
+      transition: width 0.8s ease, height 0.8s ease;
+      pointer-events: none;
+      z-index: 99998;
+    }
+    body.theme-transitioning::before {
+      width: 300vw;
+      height: 300vw;
+    }
+    
+    /* Sección "Actualmente aprendiendo" */
+    .learning-section {
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-card);
+    }
+    .learning-section h3 {
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .learning-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .learning-item {
+      background: rgba(147,51,234,0.15);
+      color: var(--accent2);
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: 2px solid rgba(147,51,234,0.3);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .learning-item:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(147,51,234,0.4);
+    }
+    [data-theme="light"] .learning-item {
+      background: rgba(124,58,237,0.15);
+      color: #5b21b6;
+      border: 2px solid rgba(124,58,237,0.4);
+    }
+    
+    /* Iconos redes sociales en sidebar */
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+      padding: 1.5rem 0;
+    }
+    .social-link {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      transition: all 0.3s;
+      overflow: hidden;
+      border: 2px solid var(--accent2);
+    }
+    .social-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .social-link:hover {
+      transform: scale(1.15) rotate(10deg);
+      box-shadow: 0 5px 20px rgba(147,51,234,0.6);
+    }
+    
     .cube-container {perspective:1000px;width:200px;height:200px;margin:2rem auto;position:relative;}
     .cube {width:200px;height:200px;position:relative;transform-style:preserve-3d;animation:rotateCube 20s infinite linear;}
     .cube-face {position:absolute;width:200px;height:200px;background:rgba(147,51,234,0.15);border:2px solid var(--accent2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:600;color:var(--accent2);backdrop-filter:blur(10px);}
@@ -390,6 +490,12 @@
         <button class="menu-btn" data-section="titles">Títulos</button>
         <button class="menu-btn" data-section="contact">Contacto</button>
       </nav>
+      
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/joaqu%C3%ADn-hern%C3%A1ndez-s%C3%A1nchez-b49836394/" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn">
+          <img src="https://www.bujarra.com/wp-content/uploads/2024/08/ezgif.com-animated-gif-maker.gif" alt="LinkedIn">
+        </a>
+      </div>
     </aside>
     
     <main class="main-content">
@@ -430,6 +536,7 @@
               <div class="stat-label">% Dedicación</div>
             </div>
           </div>
+          
         </section>
         
         <section id="skills" class="section-content">
@@ -674,10 +781,18 @@
     themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
     
     themeToggle.addEventListener('click', () => {
-      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+      document.body.classList.add('theme-transitioning');
+      
+      setTimeout(() => {
+        const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+      }, 100);
+      
+      setTimeout(() => {
+        document.body.classList.remove('theme-transitioning');
+      }, 900);
     });
     
     window.addEventListener('scroll', () => {
@@ -694,6 +809,20 @@
         scrollTop.classList.add('visible');
       } else {
         scrollTop.classList.remove('visible');
+      }
+      
+      // Cambiar icono del botón según sección activa
+      const activeSection = document.querySelector('.section-content.active');
+      if (activeSection) {
+        const sectionId = activeSection.id;
+        const icons = {
+          'intro': '🏠',
+          'skills': '⚡',
+          'projects': '💼',
+          'titles': '🎓',
+          'contact': '📧'
+        };
+        scrollTop.textContent = icons[sectionId] || '↑';
       }
     });
     
