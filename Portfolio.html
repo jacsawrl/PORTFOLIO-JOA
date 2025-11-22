@@ -43,6 +43,127 @@
     .loader-face:nth-child(6){transform:rotateX(-90deg) translateZ(25px);}
     @keyframes loaderSpin {0%{transform:rotateX(0) rotateY(0);}100%{transform:rotateX(360deg) rotateY(360deg);}}
     
+    /* ============================================ */
+    /* ANIMACIONES AVANZADAS Y MEJORAS VISUALES */
+    /* ============================================ */
+    
+    /* Animación de respiración para estadísticas */
+    @keyframes breathe {
+      0%, 100% {transform:scale(1);}
+      50% {transform:scale(1.05);}
+    }
+    
+    .stat-number {
+      animation: breathe 3s ease-in-out infinite;
+    }
+    
+    /* Efecto de brillo desplazante en botones */
+    @keyframes shimmer {
+      0% {background-position: -200% center;}
+      100% {background-position: 200% center;}
+    }
+    
+    .cv-download, .card a {
+      background-size: 200% auto;
+      background-image: linear-gradient(
+        90deg,
+        var(--accent2) 0%,
+        var(--accent) 30%,
+        var(--accent) 70%,
+        var(--accent2) 100%
+      );
+      animation: shimmer 3s linear infinite;
+    }
+    
+    /* Efecto de levitación en imágenes */
+    @keyframes levitate {
+      0%, 100% {transform:translateY(0);}
+      50% {transform:translateY(-10px);}
+    }
+    
+    .preview-img, .cert-img {
+      animation: levitate 4s ease-in-out infinite;
+    }
+    
+    .preview-img:hover, .cert-img:hover {
+      animation: none;
+    }
+    
+    /* Efecto de onda en tarjetas - ELIMINADO */
+    
+    /* Cursor normal restaurado */
+    body {
+      cursor: default;
+    }
+    
+    /* Partículas flotantes */
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+      }
+    }
+    
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      animation: particleFloat 15s linear infinite;
+    }
+    
+    /* Sombras animadas dinámicas */
+    .card, .stat-box {
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    
+    .card:hover {
+      box-shadow: 
+        0 20px 60px rgba(147,51,234,0.4),
+        0 0 80px rgba(147,51,234,0.2),
+        inset 0 0 20px rgba(147,51,234,0.05);
+    }
+    
+    /* Animación de entrada escalonada */
+    .fade-in {
+      animation: fadeInStagger 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    
+    @keyframes fadeInStagger {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .fade-in:nth-child(1) { animation-delay: 0s; }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.2s; }
+    .fade-in:nth-child(4) { animation-delay: 0.3s; }
+    .fade-in:nth-child(5) { animation-delay: 0.4s; }
+    
+    /* Parallax mejorado */
+    .bg-figures {
+      will-change: transform;
+    }
+    
     #matrix-canvas {position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;opacity:0.15;pointer-events:none;}
     
     .theme-toggle {position:fixed;top:20px;right:20px;z-index:1001;background:var(--accent);color:#fff;border:none;width:48px;height:48px;border-radius:50%;cursor:pointer;box-shadow:0 4px 12px rgba(147,51,234,0.4);font-size:1.3rem;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
@@ -57,7 +178,7 @@
     .scroll-top.visible {opacity:1;visibility:visible;}
     .scroll-top:hover{background:var(--accent2);transform:scale(1.1);}
     
-    .fade-in {opacity:0;transform:translateY(40px) scale(0.95);transition:opacity 0.7s cubic-bezier(0.4,0,0.2,1),transform 0.7s cubic-bezier(0.4,0,0.2,1);}
+    .fade-in {opacity:0;transform:translateY(40px) scale(0.95);transition:opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);}
     .fade-in.visible {opacity:1;transform:translateY(0) scale(1);}
     
     .bg-figures {position:fixed;z-index:0;top:0;left:0;width:100vw;height:100vh;pointer-events:none;overflow:hidden;transition:transform 0.5s ease-out;}
@@ -115,26 +236,35 @@
     .sections {width:100%;max-width:1200px;}
     .section-content {display:none;}
     .section-content.active{display:block;animation:sectionFadeIn 0.6s cubic-bezier(0.4,0,0.2,1);}
-    @keyframes sectionFadeIn{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+    @keyframes sectionFadeIn{0%{opacity:0;transform:translateY(30px) scale(0.97);}100%{opacity:1;transform:translateY(0) scale(1);}}
     
-    /* Transición suave de tema con efecto ola */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: var(--main-bg);
-      transform: translate(-50%, -50%);
-      transition: width 0.8s ease, height 0.8s ease;
-      pointer-events: none;
-      z-index: 99998;
+    /* Transiciones ultra fluidas para tema */
+    * {
+      transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                  color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
-    body.theme-transitioning::before {
-      width: 300vw;
-      height: 300vw;
+    
+    /* Animaciones fluidas mejoradas */
+    .card, .stat-box, .filter-btn, .tech-badge, .tag, .learning-item {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    
+    nav.menu button {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    
+    .theme-toggle, .snake-trigger-btn, .scroll-top, .menu-toggle {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    
+    .cv-download, .card a, .fullscreen-btn, .social-link {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    
+    .preview-img, .cert-img, .user-photo {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
     }
     
     /* Sección "Actualmente aprendiendo" */
@@ -454,6 +584,9 @@
   
   <canvas id="matrix-canvas"></canvas>
   
+  <!-- Contenedor de partículas -->
+  <div id="particlesContainer"></div>
+  
   <div class="progress-bar" id="progressBar"></div>
   <button class="scroll-top" id="scrollTop">↑</button>
   <button class="theme-toggle" id="themeToggle">🌙</button>
@@ -537,6 +670,14 @@
             </div>
           </div>
           
+          <div class="learning-section fade-in">
+            <h3>🚀 Actualmente aprendiendo</h3>
+            <div class="learning-items">
+              <div class="learning-item">🐍 Python</div>
+              <div class="learning-item">📊 Data Science</div>
+              <div class="learning-item">🤖 Machine Learning</div>
+            </div>
+          </div>
         </section>
         
         <section id="skills" class="section-content">
@@ -748,9 +889,10 @@
     const drops = Array(Math.floor(columns)).fill(1);
     
     function drawMatrix() {
-      ctx.fillStyle = 'rgba(46, 0, 74, 0.05)';
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      ctx.fillStyle = isLight ? 'rgba(248, 249, 250, 0.05)' : 'rgba(46, 0, 74, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#9333ea';
+      ctx.fillStyle = isLight ? '#8b5cf6' : '#9333ea';
       ctx.font = fontSize + 'px monospace';
       
       for(let i = 0; i < drops.length; i++) {
@@ -773,7 +915,29 @@
       setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
       }, 1500);
+      
+      // Inicializar partículas
+      initParticles();
     });
+    
+    // Sistema de partículas
+    function initParticles() {
+      const container = document.getElementById('particlesContainer');
+      const particleCount = 20;
+      
+      for (let i = 0; i < particleCount; i++) {
+        createParticle(container, i);
+      }
+    }
+    
+    function createParticle(container, index) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = (index * 0.5) + 's';
+      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+      container.appendChild(particle);
+    }
     
     const themeToggle = document.getElementById('themeToggle');
     const currentTheme = localStorage.getItem('theme') || 'dark';
@@ -781,18 +945,10 @@
     themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
     
     themeToggle.addEventListener('click', () => {
-      document.body.classList.add('theme-transitioning');
-      
-      setTimeout(() => {
-        const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
-      }, 100);
-      
-      setTimeout(() => {
-        document.body.classList.remove('theme-transitioning');
-      }, 900);
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
     });
     
     window.addEventListener('scroll', () => {
@@ -990,58 +1146,167 @@
     
     function closeSnake() {
       snakeModal.classList.remove('active');
-      if(gameLoop) clearInterval(gameLoop);
+      if(gameLoop) cancelAnimationFrame(gameLoop);
     }
     
-    let snake, food, direction, gameLoop, score;
+    let snake, food, direction, nextDirection, gameLoop, score, gameSpeed, lastRenderTime = 0;
     const snakeCanvas = document.getElementById('snakeCanvas');
     const snakeCtx = snakeCanvas.getContext('2d');
     const box = 20;
+    const FPS = 60;
+    const FRAME_TIME = 1000 / FPS;
     
     function initSnakeGame() {
       snake = [{x: 10 * box, y: 10 * box}];
       food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box};
       direction = null;
+      nextDirection = null;
       score = 0;
+      gameSpeed = 80;
+      lastRenderTime = 0;
       document.getElementById('score').textContent = score;
       document.getElementById('highscore').textContent = localStorage.getItem('snakeHighscore') || 0;
       
-      if(gameLoop) clearInterval(gameLoop);
-      gameLoop = setInterval(drawSnake, 100);
+      if(gameLoop) cancelAnimationFrame(gameLoop);
+      gameLoop = requestAnimationFrame(gameLoopFunc);
+    }
+    
+    function gameLoopFunc(currentTime) {
+      if(!snakeModal.classList.contains('active')) return;
+      
+      gameLoop = requestAnimationFrame(gameLoopFunc);
+      
+      const timeSinceLastRender = currentTime - lastRenderTime;
+      if(timeSinceLastRender < gameSpeed) return;
+      
+      lastRenderTime = currentTime;
+      
+      drawSnake();
     }
     
     document.addEventListener('keydown', (e) => {
       if(!snakeModal.classList.contains('active')) return;
       
-      if((e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') && direction !== 'DOWN') direction = 'UP';
-      else if((e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') && direction !== 'UP') direction = 'DOWN';
-      else if((e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') && direction !== 'RIGHT') direction = 'LEFT';
-      else if((e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') && direction !== 'LEFT') direction = 'RIGHT';
+      const currentDir = direction;
+      
+      if((e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') && currentDir !== 'DOWN') {
+        direction = 'UP';
+      }
+      else if((e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') && currentDir !== 'UP') {
+        direction = 'DOWN';
+      }
+      else if((e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') && currentDir !== 'RIGHT') {
+        direction = 'LEFT';
+      }
+      else if((e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') && currentDir !== 'LEFT') {
+        direction = 'RIGHT';
+      }
     });
     
     document.querySelectorAll('.snake-control-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const dir = btn.dataset.direction;
-        if(dir === 'UP' && direction !== 'DOWN') direction = 'UP';
-        else if(dir === 'DOWN' && direction !== 'UP') direction = 'DOWN';
-        else if(dir === 'LEFT' && direction !== 'RIGHT') direction = 'LEFT';
-        else if(dir === 'RIGHT' && direction !== 'LEFT') direction = 'RIGHT';
+        const currentDir = direction;
+        
+        if(dir === 'UP' && currentDir !== 'DOWN') {
+          direction = 'UP';
+        }
+        else if(dir === 'DOWN' && currentDir !== 'UP') {
+          direction = 'DOWN';
+        }
+        else if(dir === 'LEFT' && currentDir !== 'RIGHT') {
+          direction = 'LEFT';
+        }
+        else if(dir === 'RIGHT' && currentDir !== 'LEFT') {
+          direction = 'RIGHT';
+        }
       });
     });
     
     function drawSnake() {
-      snakeCtx.fillStyle = '#000';
+      // Fondo con gradiente
+      const gradient = snakeCtx.createLinearGradient(0, 0, 0, snakeCanvas.height);
+      gradient.addColorStop(0, '#1a0033');
+      gradient.addColorStop(1, '#2e004a');
+      snakeCtx.fillStyle = gradient;
       snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
       
-      for(let i = 0; i < snake.length; i++) {
-        snakeCtx.fillStyle = i === 0 ? '#9333ea' : '#c084fc';
-        snakeCtx.fillRect(snake[i].x, snake[i].y, box, box);
-        snakeCtx.strokeStyle = '#2e004a';
-        snakeCtx.strokeRect(snake[i].x, snake[i].y, box, box);
+      // Dibujar grid
+      snakeCtx.strokeStyle = 'rgba(147,51,234,0.1)';
+      snakeCtx.lineWidth = 1;
+      for(let i = 0; i < snakeCanvas.width; i += box) {
+        snakeCtx.beginPath();
+        snakeCtx.moveTo(i, 0);
+        snakeCtx.lineTo(i, snakeCanvas.height);
+        snakeCtx.stroke();
+      }
+      for(let i = 0; i < snakeCanvas.height; i += box) {
+        snakeCtx.beginPath();
+        snakeCtx.moveTo(0, i);
+        snakeCtx.lineTo(snakeCanvas.width, i);
+        snakeCtx.stroke();
       }
       
-      snakeCtx.fillStyle = '#e9d5ff';
-      snakeCtx.fillRect(food.x, food.y, box, box);
+      // Dibujar serpiente con efecto 3D
+      for(let i = 0; i < snake.length; i++) {
+        // Sombra
+        snakeCtx.fillStyle = 'rgba(0,0,0,0.3)';
+        snakeCtx.fillRect(snake[i].x + 2, snake[i].y + 2, box - 2, box - 2);
+        
+        // Cuerpo con gradiente
+        const segmentGradient = snakeCtx.createRadialGradient(
+          snake[i].x + box/2, snake[i].y + box/2, 2,
+          snake[i].x + box/2, snake[i].y + box/2, box
+        );
+        if(i === 0) {
+          segmentGradient.addColorStop(0, '#c084fc');
+          segmentGradient.addColorStop(1, '#9333ea');
+        } else {
+          segmentGradient.addColorStop(0, '#9333ea');
+          segmentGradient.addColorStop(1, '#6415a9');
+        }
+        snakeCtx.fillStyle = segmentGradient;
+        snakeCtx.fillRect(snake[i].x, snake[i].y, box - 2, box - 2);
+        
+        // Brillo
+        snakeCtx.fillStyle = 'rgba(255,255,255,0.2)';
+        snakeCtx.fillRect(snake[i].x + 2, snake[i].y + 2, box/3, box/3);
+        
+        // Borde
+        snakeCtx.strokeStyle = i === 0 ? '#e9d5ff' : '#8b5cf6';
+        snakeCtx.lineWidth = 2;
+        snakeCtx.strokeRect(snake[i].x, snake[i].y, box - 2, box - 2);
+      }
+      
+      // Dibujar comida con animación pulsante
+      const foodPulse = Math.sin(Date.now() / 200) * 0.2 + 1;
+      const foodSize = (box - 4) * foodPulse;
+      const foodOffset = (box - foodSize) / 2;
+      
+      // Sombra comida
+      snakeCtx.fillStyle = 'rgba(0,0,0,0.3)';
+      snakeCtx.beginPath();
+      snakeCtx.arc(food.x + box/2 + 2, food.y + box/2 + 2, foodSize/2, 0, Math.PI * 2);
+      snakeCtx.fill();
+      
+      // Comida con gradiente
+      const foodGradient = snakeCtx.createRadialGradient(
+        food.x + box/2, food.y + box/2, 2,
+        food.x + box/2, food.y + box/2, foodSize/2
+      );
+      foodGradient.addColorStop(0, '#fde047');
+      foodGradient.addColorStop(0.5, '#facc15');
+      foodGradient.addColorStop(1, '#eab308');
+      snakeCtx.fillStyle = foodGradient;
+      snakeCtx.beginPath();
+      snakeCtx.arc(food.x + box/2, food.y + box/2, foodSize/2, 0, Math.PI * 2);
+      snakeCtx.fill();
+      
+      // Brillo comida
+      snakeCtx.fillStyle = 'rgba(255,255,255,0.6)';
+      snakeCtx.beginPath();
+      snakeCtx.arc(food.x + box/2 - 3, food.y + box/2 - 3, foodSize/4, 0, Math.PI * 2);
+      snakeCtx.fill();
       
       let snakeX = snake[0].x;
       let snakeY = snake[0].y;
@@ -1056,6 +1321,11 @@
         document.getElementById('score').textContent = score;
         food = {x: Math.floor(Math.random() * 19 + 1) * box, y: Math.floor(Math.random() * 19 + 1) * box};
         
+        // Aumentar velocidad gradualmente
+        if(score % 5 === 0 && gameSpeed > 80) {
+          gameSpeed -= 10;
+        }
+        
         const highscore = localStorage.getItem('snakeHighscore') || 0;
         if(score > highscore) {
           localStorage.setItem('snakeHighscore', score);
@@ -1068,9 +1338,11 @@
       const newHead = {x: snakeX, y: snakeY};
       
       if(snakeX < 0 || snakeY < 0 || snakeX >= snakeCanvas.width || snakeY >= snakeCanvas.height || collision(newHead, snake)) {
-        clearInterval(gameLoop);
-        alert('Game Over! Puntuación: ' + score);
-        initSnakeGame();
+        cancelAnimationFrame(gameLoop);
+        setTimeout(() => {
+          alert('Game Over! Puntuación: ' + score);
+          initSnakeGame();
+        }, 100);
         return;
       }
       
